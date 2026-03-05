@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Severity } from '@commuter/shared';
 import { DarwinAdapter } from './transport/darwin.adapter';
 import { TflAdapter } from './transport/tfl.adapter';
