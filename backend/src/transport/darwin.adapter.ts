@@ -18,9 +18,15 @@ export class DarwinAdapter implements TransportAdapter {
   readonly provider = TransportProvider.Darwin;
 
   private readonly baseUrl: string;
+  private readonly accessToken: string | undefined;
 
-  constructor(baseUrl?: string) {
+  constructor(accessToken?: string, baseUrl?: string) {
+    this.accessToken = accessToken;
     this.baseUrl = baseUrl ?? HUXLEY2_BASE_URL;
+  }
+
+  private params(): Record<string, string> {
+    return this.accessToken ? { accessToken: this.accessToken } : {};
   }
 
   async checkRouteStatus(
@@ -30,6 +36,7 @@ export class DarwinAdapter implements TransportAdapter {
     const url = `${this.baseUrl}/departures/${origin}/to/${destination}/${DEFAULT_NUM_ROWS}`;
 
     const response = await axios.get<HuxleyDepartureBoard>(url, {
+      params: this.params(),
       timeout: 10_000,
     });
 
@@ -89,6 +96,7 @@ export class DarwinAdapter implements TransportAdapter {
   async healthCheck(): Promise<boolean> {
     try {
       const response = await axios.get(`${this.baseUrl}/departures/WAT/1`, {
+        params: this.params(),
         timeout: 5_000,
       });
       return response.status === 200;

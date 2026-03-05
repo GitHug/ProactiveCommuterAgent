@@ -15,7 +15,7 @@ describe('DarwinAdapter', () => {
   let adapter: DarwinAdapter;
 
   beforeEach(() => {
-    adapter = new DarwinAdapter('https://mock-huxley.test');
+    adapter = new DarwinAdapter('test-token', 'https://mock-huxley.test');
     jest.clearAllMocks();
   });
 

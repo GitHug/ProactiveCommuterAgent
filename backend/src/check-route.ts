@@ -61,7 +61,8 @@ async function main() {
     // Darwin route check
     const origin = args[fromIdx + 1].toUpperCase();
     const destination = args[toIdx + 1].toUpperCase();
-    const adapter = new DarwinAdapter();
+    const darwinToken = process.env.DARWIN_API_KEY;
+    const adapter = new DarwinAdapter(darwinToken);
 
     console.log(`\nChecking National Rail: ${origin} → ${destination}...\n`);
     const status = await adapter.checkRouteStatus(origin, destination);
